@@ -5,6 +5,7 @@ use GuzzleHttp\Middleware;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\TagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +33,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/chat', function () {
 Route::middleware('auth:sanctum')->get('/chat/rooms', [ConversationController::class, 'index']);
 Route::middleware('auth:sanctum')->get('/chat/room/{roomId}/messages', [MessageController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/chat/room/{roomId}/message', [MessageController::class, 'store']);
-Route::middleware('auth:sanctum')->get('/chat/user', [UserController::class, 'show']);
+// Route::middleware('auth:sanctum')->get('/chat/user', [UserController::class, 'show']);
+Route::middleware('auth:sanctum')->get('/chat/room/{roomId}/tags', [TagController::class, 'index']);

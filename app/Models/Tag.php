@@ -9,8 +9,16 @@ class Tag extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+    ];
+
     //reverse many conversation to many tags
     public function conversations(){
         return $this->belongsToMany(Conversation::class);
+    }
+
+    public function conversation(){
+        return $this->belongsTo(Conversation::class);
     }
 }

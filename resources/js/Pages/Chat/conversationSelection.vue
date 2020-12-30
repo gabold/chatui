@@ -1,18 +1,15 @@
 <template>
-    <div class="grid grid-cols-2">
-        <div class="font-bold text-xl">
-            {{ selected.name }} Chat
-        </div>
-        <div>
+    <div class="w-full p-5 mx-auto">        
+        <div> 
             <select 
-                v-model="selected"        
-                @change="$emit('roomchanged', selected)"
-                class="float-right outline-none">
-                <option 
+                v-model="roomSelected"
+                @change="$emit('roomchanged', roomSelected)" class="outline-none button">
+                
+                <option
                     v-for="(room, index) in rooms" 
-                    :key="index"
-                    :value="room">
-                    {{ room.name }}
+                    :key="index"                
+                    :value="room" >
+                    Room: {{ room.name }}
                 </option>
             </select>
         </div>
@@ -24,11 +21,11 @@ export default {
     props: ['rooms','room'],
     data: function(){
         return {
-            selected: ''
+            roomSelected: ''
         }
     },
     created() {
-        this.selected = this.room
+        this.roomSelected = this.room
     }
 }
 </script>

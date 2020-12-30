@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
-    public function index(){
-        return Tag::all();
+    public function index($id){
+        return Tag::find($id);
     }
 }

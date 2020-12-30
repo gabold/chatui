@@ -1,18 +1,21 @@
 <template>
     <app-layout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                <conversation-selection 
-                v-if="room.id"
-                :rooms="rooms"
-                :room="room"
-                v-on:roomchanged="setRoom( $event)"/>
-            </h2>
-        </template>
-
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="py-12 mx-auto">
+            <div class="max-w-5xl float-left sm:mx-auto lg:ml-80 sm:px-6 lg:px-4">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                    <conversation-selection 
+                        class="font-semibold text-xl text-gray-800 leading-tight"
+                        v-if="room.id"
+                        :rooms="rooms"
+                        :room="room"
+                        v-on:roomchanged="setRoom( $event )"/>
+                </div>
+            </div> 
+            <div class="max-w-7xl float-center sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                    <header-message 
+                        :room="room"
+                        :tags="tags"/>
                     <message-container
                         :messages="messages" />
                     <input-message 
@@ -26,7 +29,8 @@
 
 <script>
     import AppLayout from '@/Layouts/AppLayout'
-    import MessageContainer from './messageContainer.vue'
+    import MessageContainer from './messageContainer.vue'    
+    import HeaderMessage from './headerMessage.vue'
     import InputMessage from './inputMessage.vue'
     import ConversationSelection from './conversationSelection.vue'
 
@@ -34,6 +38,7 @@
         components: {
             AppLayout,
             MessageContainer,
+            HeaderMessage,
             InputMessage,
             ConversationSelection,
         },
@@ -41,11 +46,12 @@
             return {
                 rooms: [],
                 room: [],
-                messages: []
+                messages: [],
+                tags: []
             }
         },
         watch: {
-            room( val, oldVal) {
+            currentRoom( val, oldVal) {
                 if( oldVal.id ){
                     this.disconnect( oldVal );
                 }
@@ -58,7 +64,7 @@
                     let vm = this;
                     this.getMessages();
                     window.Echo.private("chat." + this.room.id)
-                    .listen('.message.new', e => {
+                    .listen('NewChatMessage', (e) => {
                         vm.getMessages();
                     })
                 }
@@ -79,11 +85,20 @@
             setRoom( room ) {
                 this.room = room;
                 this.getMessages();
+                this.getTags();
             },
             getMessages(){
                 axios.get('/chat/room/'+ this.room.id + '/messages')
                 .then ( response => {
                     this.messages = response.data;
+                })
+                .catch ( error => {
+                    console.log(error);
+                })
+            },getConversationTags(){
+                axios.get('/chat/room/'+ this.room.id + '/tags')
+                .then ( response => {
+                    this.tags = response.data;
                 })
                 .catch ( error => {
                     console.log(error);

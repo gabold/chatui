@@ -20,7 +20,7 @@ class CreateConversationTagTable extends Migration
             $table->foreign('conversation_id')->references('id')->on('conversations')->onDelete('cascade')->onUpdate('cascade');
 
             $table->unsignedBigInteger('tag_id');
-            $table->foreign('tag_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
