@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\MessageController;
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +23,11 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia\Inertia::render('Dashboard');
 })->name('dashboard');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/chat', function () {
+    return Inertia\Inertia::render('Chat/container');
+})->name('chat');
+
+Route::middleware('auth:sanctum')->get('/chat/rooms', [ConversationController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/chat/room/{roomId}/messages', [MessageController::class, 'index']);
+Route::middleware('auth:sanctum')->post('/chat/room/{roomId}/message', [MessageController::class, 'store']);

@@ -58,4 +58,10 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+
+    // reverse many conversations to Many users
+    public function conversations(){
+        return $this->belongsToMany(Conversation::class);
+    }
 }
