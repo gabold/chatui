@@ -1,9 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use GuzzleHttp\Middleware;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\MessageController;
-use GuzzleHttp\Middleware;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,3 +32,4 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/chat', function () {
 Route::middleware('auth:sanctum')->get('/chat/rooms', [ConversationController::class, 'index']);
 Route::middleware('auth:sanctum')->get('/chat/room/{roomId}/messages', [MessageController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/chat/room/{roomId}/message', [MessageController::class, 'store']);
+Route::middleware('auth:sanctum')->get('/chat/user', [UserController::class, 'show']);

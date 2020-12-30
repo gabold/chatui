@@ -13,8 +13,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        
+        
+        //seedeing faking information
         \App\Models\User::factory(10)->create();
-        \App\Models\Conversation::factory(5)->create();
-        \App\Models\Tag::factory(7)->create();
+        
+        //creating user in conversationseeder
+        $this->call([ConversationSeeder::class]);
+
+        //seedeing faking information
+        \App\Models\Conversation::factory(10)->create();
+        \App\Models\Tag::factory(10)->create();
+        \App\Models\Message::factory(20)->create();
     }
 }

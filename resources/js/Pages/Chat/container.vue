@@ -2,7 +2,11 @@
     <app-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Chat
+                <conversation-selection 
+                v-if="room.id"
+                :rooms="rooms"
+                :room="room"
+                v-on:roomchanged="setRoom( $event)"/>
             </h2>
         </template>
 
@@ -13,7 +17,7 @@
                         :messages="messages" />
                     <input-message 
                         :room="room"
-                        />
+                        v-on:messagesent="getMessages()" />
                 </div>
             </div>
         </div>
@@ -24,13 +28,14 @@
     import AppLayout from '@/Layouts/AppLayout'
     import MessageContainer from './messageContainer.vue'
     import InputMessage from './inputMessage.vue'
-    // import conatiner from '@/Chat/container'
+    import ConversationSelection from './conversationSelection.vue'
 
     export default {
         components: {
             AppLayout,
             MessageContainer,
             InputMessage,
+            ConversationSelection,
         },
         data: function() {
             return {
@@ -39,7 +44,28 @@
                 messages: []
             }
         },
+        watch: {
+            room( val, oldVal) {
+                if( oldVal.id ){
+                    this.disconnect( oldVal );
+                }
+                this.connect();
+            }
+        },
         methods: {
+            connect(){
+                if( this.room.id) {
+                    let vm = this;
+                    this.getMessages();
+                    window.Echo.private("chat." + this.room.id)
+                    .listen('.message.new', e => {
+                        vm.getMessages();
+                    })
+                }
+            },
+            disconnect ( room ) {
+                window.Echo.leave("chat." + room.id);
+            },
             getRooms() {
                 axios.get('/chat/rooms')
                 .then( response => {

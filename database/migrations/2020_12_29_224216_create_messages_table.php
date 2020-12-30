@@ -19,7 +19,9 @@ class CreateMessagesTable extends Migration
             $table->unsignedBigInteger('conversation_id');
             $table->foreign('conversation_id')->references('id')->on('conversations');
 
-            $table->integer('from')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+
             $table->integer('to')->nullable();
             $table->text('message');
 

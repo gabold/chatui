@@ -1,8 +1,8 @@
 <template>
     <div class="h-96 w-full">
-        <div class="h-fukk p-2 flex flex-col-reverse overflow-scroll">
+        <div class="h-full p-2 flex flex-col-reverse overflow-scroll">
             <div v-for="(message, index) in messages" :key="index">
-                <message 
+                <message-item 
                 :message="message" />
             </div>
         </div>
@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import message from './message.vue'
+import messageItem from './messageItem.vue'
 export default {
-  components: { message },
+  components: { messageItem },
     props: ['messages'] 
 }
 </script>
