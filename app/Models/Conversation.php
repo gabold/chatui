@@ -21,6 +21,6 @@ class Conversation extends Model
 
     //Many conversation to many tags
     public function tags(){
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(Tag::class);
     }
 }

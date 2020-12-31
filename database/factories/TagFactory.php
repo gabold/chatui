@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Conversation;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,6 +22,7 @@ class TagFactory extends Factory
      */
     public function definition()
     {
+        $conversation = Conversation::find(1);
         return [
             'name' => $this->faker->sentence(1)
         ];

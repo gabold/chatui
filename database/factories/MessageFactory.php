@@ -22,12 +22,11 @@ class MessageFactory extends Factory
      * @return array
      */
     public function definition()
-    {
-        $conversation = Conversation::find(1)->first(); 
+    { 
         return [
-            'conversation_id' => $conversation->id,
+            'conversation_id' => Conversation::all()->random()->id,
             'user_id' => User::all()->random()->id,
-            'message' => $this->faker->sentence
+            'message' => $this->faker->sentence(5)
         ];
     }
 }

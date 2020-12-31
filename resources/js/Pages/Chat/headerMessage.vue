@@ -1,19 +1,12 @@
 <template>
-    <div class="border-b-2 border-indigo-500 py-3 pl-8 font-bold text-xl ">
-        {{ room.name }} <br>
-        <span 
-            v-for="(tag, index) in tags" 
-            :key="index"
-            :value="tag">
-            {{tag.conversation.name}}
-            <div
-                v-for="(roomTag, index) in tags.conversations" 
-                :key="index"
-                :value="roomTag">
-                {{ roomTag.name }}
-            </div>
+    <div class="border-b-2 border-indigo-500 py-3 pl-8">
+        <h2 class="font-bold text-xl">{{ room.name }}</h2>
+        <span class="rounded bg-blue-500 text-xs px-2 text-white mx-1"
+            v-for="(tag, index) in tags" :key="index" >
+            {{ tag.name }}
         </span>
     </div>
+    
 </template>
 <script>
 export default {
