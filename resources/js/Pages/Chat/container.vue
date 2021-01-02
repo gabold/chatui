@@ -1,16 +1,18 @@
 <template>
     <app-layout>
-        <div class="container py-10 mx-auto">
-            <div class="max-w-xl bg-white overflow-hidden shadow-xl sm:rounded-lg mx-3 float-left">
-                <conversation-selection class="float-left font-semibold text-xl text-gray-500 leading-tight" v-if="room.id" :rooms="rooms" :tags="tags" v-on:roomchanged="setRoom( $event )"/>
-                <tags :tags="tags" />
-            </div> 
-            <div class="max-w-6xl bg-white overflow-hidden shadow-xl sm:rounded-lg mx-3">
+        <div class="container py-3 mx-auto min-h-screen">            
+            <div class="float-left max-w-xl bg-white overflow-hidden shadow-xl sm:rounded-lg mx-3 lg:w-96 h-auto border">
+                <conversation-selection v-if="room.id" :rooms="rooms" :tags="tags" v-on:roomchanged="setRoom( $event )"/>
+                <div class="max-w-xl h-auto m-5">
+                    <tags :tags="tags"/>
+                </div> 
+            </div>             
+            <div class="float-center max-w-6xl bg-white overflow-hidden shadow-xl sm:rounded-lg mx-3 lg:w-auto h-auto border">
                 <header-message :room="room" :roomTags="roomTags"/>
-                <message-container :messages="messages" />
+                <message-container :messages="messages"/>
                 <input-message :room="room" v-on:messagesent="getMessages()"/>   
                 <markdown-editor v-on:markdownsent="getMessages()"/>            
-            </div>
+            </div>            
         </div>
     </app-layout>
 </template>
