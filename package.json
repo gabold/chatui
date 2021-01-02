@@ -27,6 +27,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@toast-ui/vue-editor": "^2.5.1",
         "laravel-echo": "^1.10.0",
         "pusher-js": "^7.0.2"
     }

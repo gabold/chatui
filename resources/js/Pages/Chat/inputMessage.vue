@@ -1,16 +1,16 @@
 <template>
-    <div class="relative h-10 m-1">
-        <div class="grid grid-cols-6">
+    <div class="h-10 m-1">
+        <div class="">
             <input 
                 type="text" 
                 v-model="message" 
                 @keyup.enter="sendMessage()" 
                 placeholder="Escribe algo..."
-                class="col-span-5 outline-none p-2" />
+                class="col-span-10 outline-none p-2" />
             <button 
                 @click="sendMessage()"
-                class="place-self-end bg-gray-500 hover:bg-blue-700 p-1 my-1 rounded text-white outline-none px-3">
-                Enviar
+                class="float-right bg-gray-500 hover:bg-blue-700 my-1 py-1 px-3 rounded text-white outline-none">
+                Enviar mensaje
             </button>
         </div>
     </div>

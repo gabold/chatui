@@ -34,4 +34,5 @@ Route::middleware('auth:sanctum')->get('/chat/rooms', [ConversationController::c
 Route::middleware('auth:sanctum')->get('/chat/room/{roomId}/messages', [MessageController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/chat/room/{roomId}/message', [MessageController::class, 'store']);
 // Route::middleware('auth:sanctum')->get('/chat/user', [UserController::class, 'show']);
-Route::middleware('auth:sanctum')->get('/chat/room/{roomId}/tags', [TagController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/chat/tags', [TagController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/chat/room/{roomId}/tags', [TagController::class, 'show']);

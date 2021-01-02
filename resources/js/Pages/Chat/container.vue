@@ -2,13 +2,14 @@
     <app-layout>
         <div class="container py-10 mx-auto">
             <div class="max-w-xl bg-white overflow-hidden shadow-xl sm:rounded-lg mx-3 float-left">
-                <conversation-selection class="float-left font-semibold text-xl text-gray-500 leading-tight"
-                    v-if="room.id" :rooms="rooms" :room="room" v-on:roomchanged="setRoom( $event )"/>
+                <conversation-selection class="float-left font-semibold text-xl text-gray-500 leading-tight" v-if="room.id" :rooms="rooms" :tags="tags" v-on:roomchanged="setRoom( $event )"/>
+                <tags :tags="tags" />
             </div> 
             <div class="max-w-6xl bg-white overflow-hidden shadow-xl sm:rounded-lg mx-3">
-                <header-message :room="room" :tags="tags"/>
+                <header-message :room="room" :roomTags="roomTags"/>
                 <message-container :messages="messages" />
-                <input-message :room="room" v-on:messagesent="getMessages()"/>               
+                <input-message :room="room" v-on:messagesent="getMessages()"/>   
+                <markdown-editor v-on:markdownsent="getMessages()"/>            
             </div>
         </div>
     </app-layout>
@@ -20,6 +21,8 @@ import MessageContainer from './messageContainer.vue'
 import HeaderMessage from './headerMessage.vue'
 import InputMessage from './inputMessage.vue'
 import ConversationSelection from './conversationSelection.vue'
+import MarkdownEditor from './markdownEditor.vue'
+import Tags from './tags.vue'
 
 export default {
     components: {
@@ -28,13 +31,16 @@ export default {
         HeaderMessage,
         InputMessage,
         ConversationSelection,
+        MarkdownEditor,
+        Tags,
     },
     data: function() {
         return {
             rooms: [],
-            room: [],
+            room: '',
             messages: [],
-            tags: []
+            tags: [],
+            roomTags: [],
         }
     },
     watch: {
@@ -64,6 +70,7 @@ export default {
             .then( response => {
                 this.rooms = response.data;
                 this.setRoom(response.data[0]);
+                this.getAllTags();
             })
             .catch ( error => {
                 console.log(error);
@@ -83,10 +90,19 @@ export default {
                 console.log(error);
             })
         },
+        getAllTags(){
+            axios.get('/chat/tags')
+            .then ( response => {
+                this.tags = response.data;
+            })
+            .catch ( error => {
+                console.log(error);
+            })
+        },
         getRoomTags(){
             axios.get('/chat/room/'+ this.room.id + '/tags')
             .then ( response => {
-                this.tags = response.data;
+                this.roomTags = response.data;
             })
             .catch ( error => {
                 console.log(error);

@@ -9,7 +9,11 @@ use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
-    public function index($roomId){
+    public function index (){
+        return Tag::all();
+    }
+
+    public function show($roomId){
         $room = Conversation::find($roomId);
         return $room->tags;
     }
