@@ -2,9 +2,13 @@
     <app-layout>
         <div class="container py-3 mx-auto min-h-screen">            
             <div class="float-left max-w-xl bg-white overflow-hidden shadow-xl sm:rounded-lg mx-3 lg:w-96 h-auto border">
+                <div v-if="currentTag!=null" class="mt-5 mx-10">
+                    <button @click="reset()" class="text-indigo-500">Atras</button> 
+                    <h1 class="font-bold text-2xl">{{currentTag.name}}</h1>
+                </div>
                 <conversation-selection v-if="room.id" :rooms="rooms" :tags="tags" v-on:roomchanged="setRoom( $event )"/>
                 <div class="max-w-xl h-auto m-5">
-                    <tags :tags="tags"/>
+                    <tags :tags="tags" v-on:getrooms="getRoomsbyTag( $event )"/>
                 </div> 
             </div>             
             <div class="float-center max-w-6xl bg-white overflow-hidden shadow-xl sm:rounded-lg mx-3 lg:w-auto h-auto border">
@@ -43,6 +47,7 @@ export default {
             messages: [],
             tags: [],
             roomTags: [],
+            currentTag: null
         }
     },
     watch: {
@@ -109,6 +114,22 @@ export default {
             .catch ( error => {
                 console.log(error);
             })
+        },
+        getRoomsbyTag( tag ) {
+            axios.get('/chat/rooms/tag/'+ tag.id)
+            .then( response => {
+                this.rooms = response.data;
+                this.setRoom(response.data[0]);
+                this.getAllTags();
+                this.currentTag = tag;
+            })
+            .catch ( error => {
+                console.log(error);
+            })
+        },
+        reset(){
+            this.getRooms();
+            this.currentTag = null;        
         }
     },
     created(){

@@ -17,4 +17,9 @@ class TagController extends Controller
         $room = Conversation::find($roomId);
         return $room->tags;
     }
+
+    public function getRoomsById($tagId){   
+        $tag = Tag::find($tagId);    
+        return $tag->conversations->unique()->values()->all();;
+    }
 }
