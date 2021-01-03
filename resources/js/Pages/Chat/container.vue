@@ -6,7 +6,7 @@
                     <button @click="reset()" class="text-indigo-500">Atras</button> 
                     <h1 class="font-bold text-2xl">{{currentTag.name}}</h1>
                 </div>
-                <conversation-selection v-if="room.id" :rooms="rooms" :tags="tags" v-on:roomchanged="setRoom( $event )"/>
+                <conversation-selection :rooms="rooms" :tags="tags" v-on:roomchanged="setRoom( $event )"/>
                 <div class="max-w-xl h-auto m-5">
                     <tags :tags="tags" v-on:getrooms="getRoomsbyTag( $event )"/>
                 </div> 
@@ -77,7 +77,6 @@ export default {
             .then( response => {
                 this.rooms = response.data;
                 this.setRoom(response.data[0]);
-                this.getAllTags();
             })
             .catch ( error => {
                 console.log(error);
@@ -101,6 +100,7 @@ export default {
             axios.get('/chat/tags')
             .then ( response => {
                 this.tags = response.data;
+                console.log('tags cargadas');
             })
             .catch ( error => {
                 console.log(error);
@@ -118,10 +118,14 @@ export default {
         getRoomsbyTag( tag ) {
             axios.get('/chat/rooms/tag/'+ tag.id)
             .then( response => {
-                this.rooms = response.data;
-                this.setRoom(response.data[0]);
-                this.getAllTags();
-                this.currentTag = tag;
+                if(response.data.length ===0){
+                    this.rooms = response.data;
+                    this.currentTag = tag;
+                }else{
+                    this.rooms = response.data;
+                    this.setRoom(response.data[0]);
+                    this.currentTag = tag;
+                }
             })
             .catch ( error => {
                 console.log(error);
@@ -134,6 +138,7 @@ export default {
     },
     created(){
         this.getRooms();
+        this.getAllTags();
     }
 }
 </script>

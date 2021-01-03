@@ -20,6 +20,6 @@ class TagController extends Controller
 
     public function getRoomsById($tagId){   
         $tag = Tag::find($tagId);    
-        return $tag->conversations->unique()->values()->all();;
+        return $tag->conversations->unique()->values()->all();
     }
 }
